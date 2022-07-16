@@ -8,6 +8,7 @@ mod utils;
 mod game;
 mod init;
 mod player;
+mod event;
 
 fn main() {
     let sdl2_context = init::sdl2_context();
@@ -17,8 +18,6 @@ fn main() {
     let mut sdl2_renderer = init::sdl2_renderer(sdl2_window);
 
     game::game_loop(sdl2_context, sdl2_renderer.borrow_mut());
-
-    println!("Hello, world!");
 
     log_and_exit(String::from("Finished"), None)
 }

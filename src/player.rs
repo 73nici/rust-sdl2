@@ -1,5 +1,6 @@
 use sdl2::EventPump;
 use sdl2::keyboard::Scancode;
+use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
 
@@ -11,6 +12,7 @@ pub struct Position {
 pub struct Player {
     shape: Rect,
     position: Position,
+    color: Color,
 }
 
 pub fn init() -> Player {
@@ -20,6 +22,7 @@ pub fn init() -> Player {
             y: 0,
         },
         shape: Rect::new(0, 0, 100, 100),
+        color: Color::RGB(255, 255, 255),
     };
 
     return player;
@@ -45,5 +48,6 @@ pub fn update(mut player: &mut Player, event_pump: &EventPump) {
 }
 
 pub fn draw(player: &Player, renderer: &mut WindowCanvas) {
+    renderer.set_draw_color(player.color);
     renderer.draw_rect(player.shape).unwrap();
 }
