@@ -1,4 +1,3 @@
-use std::borrow::Borrow;
 use sdl2::event::Event;
 use sdl2::keyboard::Scancode;
 

@@ -1,31 +1,44 @@
-use std::borrow::{Borrow, BorrowMut};
 use sdl2::{Sdl};
 use sdl2::pixels::Color;
 use sdl2::render::WindowCanvas;
-use crate::player;
 use crate::event;
+use crate::player::Player;
 
-pub fn game_loop(sdl_context: Sdl, renderer: &mut WindowCanvas) {
-    let mut event_pump = sdl_context.event_pump().unwrap();
-    let mut my_player = player::init();
+pub struct Game {
+    sdl2_context: Sdl,
+    sdl2_renderer: WindowCanvas,
+}
 
-    'running: loop {
-        let start_tick = sdl_context.timer().unwrap().ticks();
-        for event in event_pump.poll_iter() {
-            if event::handle_event(event.borrow()) {
-                break 'running;
-            }
+impl Game {
+    pub(crate) fn new(sdl2_context: Sdl, sdl2_renderer: WindowCanvas) -> Self {
+        Game {
+            sdl2_context,
+            sdl2_renderer
         }
+    }
 
-        renderer.set_draw_color(Color::RGB(0, 0, 0));
-        renderer.clear();
+    pub fn game_loop(&mut self) {
+        let mut event_pump = self.sdl2_context.event_pump().unwrap();
+        let mut player = Player::new();
 
-        player::update(my_player.borrow_mut(), event_pump.borrow());
-        player::draw(my_player.borrow(), renderer.borrow_mut());
-        renderer.present();
+        'running: loop {
+            let start_tick = self.sdl2_context.timer().unwrap().ticks();
+            for event in event_pump.poll_iter() {
+                if event::handle_event(&event) {
+                    break 'running;
+                }
+            }
 
-        let end_tick = sdl_context.timer().unwrap().ticks();
+            self.sdl2_renderer.set_draw_color(Color::RGB(0, 0, 0));
+            self.sdl2_renderer.clear();
 
-        println!("{}", end_tick - start_tick);
+            player.update(&event_pump);
+            player.draw(&mut self.sdl2_renderer);
+            self.sdl2_renderer.present();
+
+            let end_tick = self.sdl2_context.timer().unwrap().ticks();
+
+            println!("{}", end_tick - start_tick);
+        }
     }
 }
