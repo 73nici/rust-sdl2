@@ -29,16 +29,16 @@ impl Game {
         
             self.framework.lock().unwrap().prepare_frame(None);
 
-            entities.retain(|entity| {
-                !entity.is_dead
-            });
-
             entities.iter().for_each(|entity| {
                 entity.draw(self.framework.lock().unwrap().get_sdl2_renderer_mut());
             });
 
             player.update(self.framework.lock().unwrap().get_sdl2_event_pump());
-            player.check_collision(&mut entities);
+
+            entities.retain(|entity| {
+                !player.check_collision(entity)
+            });
+
             player.draw(self.framework.lock().unwrap().get_sdl2_renderer_mut());
 
             self.framework.lock().unwrap().show_frame();
