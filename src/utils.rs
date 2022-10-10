@@ -1,4 +1,4 @@
-pub fn log_and_exit(error: String, code: Option<i32>) {
+pub fn log_and_exit(error: &str, code: Option<i32>) {
     println!("{}", error);
 
     match code {

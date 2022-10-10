@@ -1,6 +1,6 @@
 use std::sync::Mutex;
 use crate::entity::entity::{Entity, EntityTrait};
-use crate::entity::player::{Player, PlayerTrait};
+use crate::entity::player::{Player};
 use crate::event;
 use crate::framework::{Framework};
 

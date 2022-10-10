@@ -14,5 +14,5 @@ fn main() {
     let mut game = Game::new("Test");
 
     game.game_loop();
-    log_and_exit(String::from("Finished"), None);
+    log_and_exit("Finished", None);
 }
