@@ -1,7 +1,6 @@
 extern crate sdl2;
 extern crate core;
 
-use crate::utils::log_and_exit;
 use crate::game::Game;
 
 mod utils;
@@ -10,9 +9,11 @@ mod event;
 mod entity;
 mod framework;
 
+/// entry point of game
 fn main() {
+    // create game struct and start game loop
     let mut game = Game::new("Test");
 
     game.game_loop();
-    log_and_exit("Finished", None);
+    utils::log_and_exit("Finished", None);
 }

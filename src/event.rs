@@ -1,31 +1,37 @@
 use sdl2::event::Event;
 use sdl2::keyboard::Scancode;
 
-fn handle_keyboard_event(event: &Event, is_close: &mut bool) {
+/// handles keyboard close events
+fn handle_keyboard_event(event: &Event) -> bool {
     match event {
         Event::KeyDown {scancode, ..} => {
-            if scancode.unwrap() == Scancode::Escape || scancode.unwrap() == Scancode::Q
-            {
-                *is_close = true;
+            if scancode.unwrap() == Scancode::Escape || scancode.unwrap() == Scancode::Q {
+                return true
             }
+            false
         },
-        _ => (),
+        _ => false,
     }
 }
 
-fn handle_close_event(event: &Event, is_close: &mut bool) {
+/// handles window close events
+fn handle_close_event(event: &Event) -> bool {
     match event {
         Event::Quit {..} => {
-            *is_close = true;
+            true
         },
-        _ => (),
+        _ => false
     }
 }
 
+/// handles all (currently only close) events
 pub fn handle_event(event: &Event) -> bool {
-    let mut is_close = false;
-    handle_keyboard_event(event, &mut is_close);
-    handle_close_event(event, &mut is_close);
+    let is_close = handle_keyboard_event(event);
 
+    if is_close {
+        return is_close
+    }
+
+    let is_close = handle_close_event(event);
     return is_close;
 }

@@ -21,12 +21,12 @@ impl EntityTrait for Entity {
         let y = y.unwrap_or(0);
 
         Entity {
-            position: Position::new(Some(x), Some(y)),
+            position: Position::new(&Some(x), &Some(y)),
             shape: Rect::new(x, y, 100, 100),
             color: Color::RGB(255, 255, 255),
         }
     }
-    
+
     fn draw(&self, renderer: &mut WindowCanvas) {
         renderer.set_draw_color(self.color);
         renderer.draw_rect(self.shape).unwrap();
